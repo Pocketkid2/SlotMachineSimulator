@@ -4,10 +4,17 @@ public class SlotMachineMain {
 
 	public static void main(String[] args) {
 		Slot s = new Slot(System.currentTimeMillis());
-		int balance = 0;
+		long balance = 0;
 
 		// Place a lot of bets
-		final long NUMBER_BETS = Long.parseLong(args[0]);
+		long NUMBER_BETS = 0;
+		try {
+			NUMBER_BETS = Long.parseLong(args[0]);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("You must provide an argument for how many slot machine pulls you want to simulate");
+		} catch (NumberFormatException e) {
+			System.out.println("Error reading number of bets! Is it too small, large, or not a real/whole number?");
+		}
 		for (long i = 0; i < NUMBER_BETS; i++) {
 			// Pay $20
 			balance -= 20;
@@ -23,8 +30,11 @@ public class SlotMachineMain {
 			}
 		}
 
-		System.out.println(
-				"I started with 0 dollars and after " + NUMBER_BETS + " bets ended with " + balance + " dollars");
+		long loss = balance * -1;
+		System.out.println();
+		System.out.println("Bets: " + NUMBER_BETS + " Money lost: " + loss + " Average loss per bet: "
+				+ (loss / (NUMBER_BETS != 0 ? NUMBER_BETS : 1)));
+		System.out.println();
 
 	}
 
